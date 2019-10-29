@@ -13,5 +13,5 @@
  ### **Top Module 의 DUT/TestBench Code 및 Waveform 검증**
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2006/wave.PNG)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE0NjM5MDAxNThdfQ==
+eyJoaXN0b3J5IjpbLTE1NTAwMTMwMiwtMTQ2MzkwMDE1OF19
 -->
