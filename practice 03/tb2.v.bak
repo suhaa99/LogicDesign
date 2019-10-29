@@ -1,0 +1,49 @@
+module    tb_prj02      ;
+  
+reg  [1:0]  sel   ;
+reg  [3:0]   in   ;
+
+wire   out1    ;
+
+wire   out2    ;
+
+wire   out3    ;
+
+mux4to1_if     dut_1(    .out  ( out1   ),
+                            .sel ( sel   ),
+                            .in ( in    ));
+                           
+                      
+mux4to1_case     dut_2(    .out  (  out2  ),
+                          .sel  ( sel),
+                          .in   ( in )); 
+                          
+mux4to1_mux2to1     dut_3(    .out  (  out3  ),
+                          .sel  ( sel),
+                          .in   ( in ));                           
+                      
+
+                            
+// --------------------------------------------
+// stimulus
+// --------------------------------------------
+initial begin
+    $display("Using first one : out1" );
+    $display("Using second one : out2 ");
+    $display("Using third one : out3 ");   
+    $display("=============================================" );
+    $display("   sel[1]     sel[0]      in[3]     in[2]     in[1]     in[0]     out1    out2    out3" );                                                                                        
+    $display("=============================================" );
+    #(50)    {sel[1], sel[0], in[3], in[2], in[1], in[0]}= 6'b00_0000;  #(50)  $display("%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t", sel[1], sel[0], in[3], in[2], in[1], in[0], out1, out2, out3);
+    #(50)    {sel[1], sel[0], in[3], in[2], in[1], in[0]}= 6'b00_0100;  #(50)  $display("%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t", sel[1], sel[0], in[3], in[2], in[1], in[0], out1, out2, out3);
+    #(50)    {sel[1], sel[0], in[3], in[2], in[1], in[0]}= 6'b01_1100;  #(50)  $display("%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t", sel[1], sel[0], in[3], in[2], in[1], in[0], out1, out2, out3);
+    #(50)    {sel[1], sel[0], in[3], in[2], in[1], in[0]}= 6'b01_0011;  #(50)  $display("%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t", sel[1], sel[0], in[3], in[2], in[1], in[0], out1, out2, out3);
+    #(50)    {sel[1], sel[0], in[3], in[2], in[1], in[0]}= 6'b10_0110;  #(50)  $display("%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t", sel[1], sel[0], in[3], in[2], in[1], in[0], out1, out2, out3);
+    #(50)    {sel[1], sel[0], in[3], in[2], in[1], in[0]}= 6'b10_1001;  #(50)  $display("%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t", sel[1], sel[0], in[3], in[2], in[1], in[0], out1, out2, out3);
+    #(50)    {sel[1], sel[0], in[3], in[2], in[1], in[0]}= 6'b11_0101;  #(50)  $display("%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t", sel[1], sel[0], in[3], in[2], in[1], in[0], out1, out2, out3);
+    #(50)    {sel[1], sel[0], in[3], in[2], in[1], in[0]}= 6'b11_0010;  #(50)  $display("%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t", sel[1], sel[0], in[3], in[2], in[1], in[0], out1, out2, out3);
+    #(50)   $finish;
+end
+
+endmodule    
+    

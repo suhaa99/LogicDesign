@@ -1,0 +1,41 @@
+module tb1;
+  
+wire    q_block       ;
+wire    q_nonblock    ;
+
+reg     clk   ;
+reg     d     ;
+reg     n1    ;
+
+
+initial             clk = 1'b0  ;
+always    #(100)    clk = ~clk  ;
+
+
+block       dut0(     .q     (    q_block   ),
+                      .d     (    d         ),
+                      .clk   (      clk     ));
+                      
+nonblock    dut1(     .q     (    q_nonblock   ),
+                      .d     (    d            ),
+                      .clk   (      clk        ));
+                      
+                      
+initial begin
+$display("=============================================");
+$display("      d       q_block       q_nonblcok       ");
+$display("============================================="); 
+#(0)      {   d   } = 1'b0;
+#(50)     {   d   } = 1'b0;   #(50)     $display("    %b\t%b\t%b\t    ", d, q_block, q_nonblock);
+#(50)     {   d   } = 1'b1;   #(50)     $display("    %b\t%b\t%b\t    ", d, q_block, q_nonblock); 
+#(50)     {   d   } = 1'b0;   #(50)     $display("    %b\t%b\t%b\t    ", d, q_block, q_nonblock); 
+#(50)     {   d   } = 1'b1;   #(50)     $display("    %b\t%b\t%b\t    ", d, q_block, q_nonblock); 
+#(50)     {   d   } = 1'b0;   #(50)     $display("    %b\t%b\t%b\t    ", d, q_block, q_nonblock); 
+#(50)     {   d   } = 1'b1;   #(50)     $display("    %b\t%b\t%b\t    ", d, q_block, q_nonblock); 
+#(50)     {   d   } = 1'b1;   #(50)     $display("    %b\t%b\t%b\t    ", d, q_block, q_nonblock); 
+#(50)     {   d   } = 1'b0;   #(50)     $display("    %b\t%b\t%b\t    ", d, q_block, q_nonblock); 
+#(50)     {   d   } = 1'b1;   #(50)     $display("    %b\t%b\t%b\t    ", d, q_block, q_nonblock);                                                           
+$finish ;
+end
+
+endmodule                                                           
