@@ -30,11 +30,13 @@ assign       six_digit_seg = { 4{7'b1110111}, seg_left, seg_right }
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2006/IMG_9085.jpg)
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2006/IMG_9086.jpg)
 
+
 > Q2 - 고정 LED 없이 2개의 LED 단위로 1초 Counter 값 표시 : `00_00_00`, `01_01_01`, `02_02_02`, … 순으로 LED 변경
 ```verilog 
 wire  [41:0] six_digit_seg; 
 assign       six_digit_seg = { 3{seg_left, seg_right} }
 ```
+![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2006/IMG_9091.jpg)
 
 
 ## 결과 
