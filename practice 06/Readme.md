@@ -37,7 +37,7 @@ wire  [41:0] six_digit_seg;
 assign       six_digit_seg = { 3{seg_left, seg_right} }
 ```
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2006/IMG_9091.jpg)
-
+![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2006/IMG_9092.jpg)
 
 ## 결과 
  ### **Top Module 의 DUT/TestBench Code 및 Waveform 검증**
