@@ -13,6 +13,7 @@
 ### FPGA 실습 (팀) : 6개의 LED 중 가장 오른쪽 2개의 LED에 1초간격으로 0~59까지 증가하는 Counter 값 Display
 : NCO(Numerical Controlled Oscillator) 입력 바꿔서 4초 간격으로 증가하는 코드 테스트
 
+
 ## 퀴즈
 ### 아래 코드 일부를 수정하여 다음을 구하시오
 ```verilog 
@@ -32,6 +33,7 @@ assign       six_digit_seg = { 4{7'b1110111}, seg_left, seg_right }
 wire  [41:0] six_digit_seg; 
 assign       six_digit_seg = { seg_left, seg_right, seg_left, seg_right, seg_left, seg_right }
 ```
+
 
 ## 결과 
  ### **Top Module 의 DUT/TestBench Code 및 Waveform 검증**
