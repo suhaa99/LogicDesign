@@ -12,11 +12,9 @@
 
 #### **Top Module** : 리모콘의 송신 신호를 받아 FPGA의 디스플레이에 각 값 출력
 
-### FPGA 실습 (팀) : 6개의 LED 중 가장 오른쪽 2개의 LED에 1초간격으로 0~59까지 증가하는 Counter 값 Display
-: NCO(Numerical Controlled Oscillator) 입력 바꿔서 4초 간격으로 증가하는 코드 테스트
+### FPGA 실습 (팀) : 리모콘 송신신호의 수신값 Display
 
 
- 
  ### **Top Module 의 DUT/TestBench Code 및 Waveform 검증**
  
 ![]
