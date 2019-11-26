@@ -8,7 +8,7 @@
 
 #### **Submodule 2(fnd_dec)** :  0~9, 그리고 A~F를 나타내는 4bit 입력 신호를 받아 7bit FND  segment  값 출력
 
-#### **Submodule 3(led_disp)**: 
+#### **Submodule 3(led_disp)**: 각 seg 값을 LED화면에 출력
 
 #### **Submodule 4(ir_rx)**: 
 
@@ -48,6 +48,6 @@ assign       six_digit_seg = { 3{seg_left, seg_right} }
  
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2006/wave.PNG)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTY3NzYyMjM2MCwtMTU1MDAxMzAyLC0xND
+eyJoaXN0b3J5IjpbLTExOTk1MDIxNiwtMTU1MDAxMzAyLC0xND
 YzOTAwMTU4XX0=
 -->
