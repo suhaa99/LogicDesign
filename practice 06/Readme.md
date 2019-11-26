@@ -12,6 +12,8 @@
 
 #### **Submodule 4(led_disp)**: 
 
+#### **Submodule 5(ir_rx)**: 
+
 #### **Top Module** : 저번 시간에 만든 second counter  및 Submodule 1/2를 이용하여 실습 장비의 LED에 맞는 Display Module 설계
 
 ### FPGA 실습 (팀) : 6개의 LED 중 가장 오른쪽 2개의 LED에 1초간격으로 0~59까지 증가하는 Counter 값 Display
@@ -48,6 +50,6 @@ assign       six_digit_seg = { 3{seg_left, seg_right} }
  
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2006/wave.PNG)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzQzMDMwMjI4LC0xNTUwMDEzMDIsLTE0Nj
-M5MDAxNThdfQ==
+eyJoaXN0b3J5IjpbMTM5MDQ5NTc1MiwtMTU1MDAxMzAyLC0xND
+YzOTAwMTU4XX0=
 -->
