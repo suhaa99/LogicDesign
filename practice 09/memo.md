@@ -14,7 +14,7 @@
 
 ### FPGA 실습 (팀) : 리모콘 송신신호의 수신값 Display
 
-##결과
+## 결과
  ### **Top Module 의 DUT/TestBench Code 및 Waveform 검증**
  
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2009/capture/wave_total.PNG)
