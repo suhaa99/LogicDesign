@@ -4,7 +4,7 @@
 
 #### **Submodule 1(nco)** : 주파수를 조절해서 CLK 설정
 
-#### **Submodule 2(fnd_dec)** :  0에서9, 그리고 에서F를 나타내는 4bit 입력 신호를 받아 7bit FND  segment  값 출력
+#### **Submodule 2(fnd_dec)** :  0에서9, 그리고 A에서F를 나타내는 4bit 입력 신호를 받아 7bit FND  segment  값 출력
 
 #### **Submodule 3(led_disp)**: 각 seg 값을 LED화면에 출력
 
