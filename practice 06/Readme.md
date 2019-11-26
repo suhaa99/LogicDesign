@@ -4,7 +4,7 @@
 ## 실습 내용
 ### **리모콘 송신 신호**
 
-#### **Submodule 1(nco)** : 
+#### **Submodule 1(nco)** : 주파수를 조절해서 CLK 설정
 
 #### **Submodule 2(fnd_dec)** :  0~9, 그리고 A~F를 나타내는 4bit 입력 신호를 받아 7bit FND  segment  값 출력
 
@@ -50,6 +50,6 @@ assign       six_digit_seg = { 3{seg_left, seg_right} }
  
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2006/wave.PNG)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE3MTkxMDY0MDMsLTE1NTAwMTMwMiwtMT
-Q2MzkwMDE1OF19
+eyJoaXN0b3J5IjpbLTQxODczMzEyNiwtMTU1MDAxMzAyLC0xND
+YzOTAwMTU4XX0=
 -->
