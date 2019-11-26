@@ -4,9 +4,9 @@
 ## 실습 내용
 ### **리모콘 송신 신호**
 
-#### **Submodule 1** : 0~9의 값을 갖는 4bit 입력 신호를 받아 7bit FND  segment  값 출력
+#### **Submodule 1(nco)** : 0~9의 값을 갖는 4bit 입력 신호를 받아 7bit FND  segment  값 출력
 
-#### **Submodule 2** : 0~59의 값을 갖는 6bit 입력 신호를 받아 십의 자리 수와 일의 자리 수를 각각 4bit으로 출력
+#### **Submodule 2(fnd_d** : 0~59의 값을 갖는 6bit 입력 신호를 받아 십의 자리 수와 일의 자리 수를 각각 4bit으로 출력
 
 #### **Top Module** : 저번 시간에 만든 second counter  및 Submodule 1/2를 이용하여 실습 장비의 LED에 맞는 Display Module 설계
 
@@ -44,6 +44,6 @@ assign       six_digit_seg = { 3{seg_left, seg_right} }
  
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2006/wave.PNG)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE5MTYwMzcyNDEsLTE1NTAwMTMwMiwtMT
+eyJoaXN0b3J5IjpbLTE3ODMwMjIxNzMsLTE1NTAwMTMwMiwtMT
 Q2MzkwMDE1OF19
 -->
