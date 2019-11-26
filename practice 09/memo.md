@@ -19,5 +19,7 @@
  
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2009/capture/wave_total.PNG)
 
+![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2009/capture/%EC%BA%A1%EC%B2%98.PNG)
+
 
 
