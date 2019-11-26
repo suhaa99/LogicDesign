@@ -44,5 +44,6 @@ assign       six_digit_seg = { 3{seg_left, seg_right} }
  
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2006/wave.PNG)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1NTAwMTMwMiwtMTQ2MzkwMDE1OF19
+eyJoaXN0b3J5IjpbLTEwMDI5ODY0MjMsLTE1NTAwMTMwMiwtMT
+Q2MzkwMDE1OF19
 -->
