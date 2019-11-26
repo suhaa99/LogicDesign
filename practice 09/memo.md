@@ -23,5 +23,8 @@
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2009/capture/%EC%BA%A1%EC%B2%98.PNG)
 cnt.h가 9000us일 때 ir_rx 값이 1에서 0으로 변한다.
 
+![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2009/capture/fpga.jfif)
+위 사진은 리모콘 '0'을 눌렀을 때 디스플레이에 나타난 사진이다.
+
 
 
