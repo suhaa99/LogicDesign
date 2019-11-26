@@ -18,8 +18,10 @@
  ### **Top Module 의 DUT/TestBench Code 및 Waveform 검증**
  
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2009/capture/wave_total.PNG)
+위 사진은 전체 waveform이다.
 
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2009/capture/%EC%BA%A1%EC%B2%98.PNG)
+cnt.h가 9000us일 때 ir_rx 값이 1에서 0으로 변한다.
 
 
 
