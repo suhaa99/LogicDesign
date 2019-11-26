@@ -6,9 +6,9 @@
 
 #### **Submodule 1(nco)** : 0~9의 값을 갖는 4bit 입력 신호를 받아 7bit FND  segment  값 출력
 
-#### **Submodule 2(fnd_dec)** : 0~59의 값을 갖는 6bit 입력 신호를 받아 십의 자리 수와 일의 자리 수를 각각 4bit으로 출력
+#### **Submodule 2(fnd_dec)** :  0~9, 그리고 A~F의 값을 갖는 4bit 입력 신호를 받아 7bit FND  segment  값 출력
 
-#### **Submodule 3(double_fig_sep)**: 
+#### **Submodule 3(double_fig_sep)**: 0~59의 값을 갖는 6bit 입력 신호를 받아 십의 자리 수와 일의 자리 수를 각각 4bit으로 출력
 
 #### **Submodule 4(led_disp)**: 
 
@@ -50,6 +50,6 @@ assign       six_digit_seg = { 3{seg_left, seg_right} }
  
 ![](https://github.com/suhaa99/LogicDesign/blob/master/practice%2006/wave.PNG)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTM5MDQ5NTc1MiwtMTU1MDAxMzAyLC0xND
+eyJoaXN0b3J5IjpbMTk0MTEwOTEwNiwtMTU1MDAxMzAyLC0xND
 YzOTAwMTU4XX0=
 -->
