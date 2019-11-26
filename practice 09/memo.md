@@ -1,23 +1,23 @@
 # Lab 09
-## ½Ç½À ³»¿ë
-### **¸®¸ðÄÜ ¼Û½Å ½ÅÈ£**
+## ì‹¤ìŠµ ë‚´ìš©
+### **ë¦¬ëª¨ì½˜ ì†¡ì‹  ì‹ í˜¸**
 
-#### **Submodule 1(nco)** : ÁÖÆÄ¼ö¸¦ Á¶ÀýÇØ¼­ CLK ¼³Á¤
+#### **Submodule 1(nco)** : ì£¼íŒŒìˆ˜ë¥¼ ì¡°ì ˆí•´ì„œ CLK ì„¤ì •
 
-#### **Submodule 2(fnd_dec)** :  0~9, ±×¸®°í A~F¸¦ ³ªÅ¸³»´Â 4bit ÀÔ·Â ½ÅÈ£¸¦ ¹Þ¾Æ 7bit FND  segment  °ª Ãâ·Â
+#### **Submodule 2(fnd_dec)** :  0ì—ì„œ9, ê·¸ë¦¬ê³  ì—ì„œFë¥¼ ë‚˜íƒ€ë‚´ëŠ” 4bit ìž…ë ¥ ì‹ í˜¸ë¥¼ ë°›ì•„ 7bit FND  segment  ê°’ ì¶œë ¥
 
-#### **Submodule 3(led_disp)**: °¢ seg °ªÀ» LEDÈ­¸é¿¡ Ãâ·Â
+#### **Submodule 3(led_disp)**: ê° seg ê°’ì„ LEDí™”ë©´ì— ì¶œë ¥
 
-#### **Submodule 4(ir_rx)**: ¸®¸ðÄÜ ¼Û½Å ½ÅÈ£¸¦ ¹Þ¾Æ NEC Àû¿Ü¼± Åë½Å ±Ô¾à¿¡ ¸Â´Â data°ª Ãâ·Â
+#### **Submodule 4(ir_rx)**: ë¦¬ëª¨ì½˜ ì†¡ì‹  ì‹ í˜¸ë¥¼ ë°›ì•„ NEC ì ì™¸ì„  í†µì‹  ê·œì•½ì— ë§žëŠ” dataê°’ ì¶œë ¥
 
-#### **Top Module** : ¸®¸ðÄÜÀÇ ¼Û½Å ½ÅÈ£¸¦ ¹Þ¾Æ FPGAÀÇ µð½ºÇÃ·¹ÀÌ¿¡ °¢ °ª Ãâ·Â
+#### **Top Module** : ë¦¬ëª¨ì½˜ì˜ ì†¡ì‹  ì‹ í˜¸ë¥¼ ë°›ì•„ FPGAì˜ ë””ìŠ¤í”Œë ˆì´ì— ê° ê°’ ì¶œë ¥
 
-### FPGA ½Ç½À (ÆÀ) : 6°³ÀÇ LED Áß °¡Àå ¿À¸¥ÂÊ 2°³ÀÇ LED¿¡ 1ÃÊ°£°ÝÀ¸·Î 0~59±îÁö Áõ°¡ÇÏ´Â Counter °ª Display
-: NCO(Numerical Controlled Oscillator) ÀÔ·Â ¹Ù²ã¼­ 4ÃÊ °£°ÝÀ¸·Î Áõ°¡ÇÏ´Â ÄÚµå Å×½ºÆ®
+### FPGA ì‹¤ìŠµ (íŒ€) : 6ê°œì˜ LED ì¤‘ ê°€ìž¥ ì˜¤ë¥¸ìª½ 2ê°œì˜ LEDì— 1ì´ˆê°„ê²©ìœ¼ë¡œ 0~59ê¹Œì§€ ì¦ê°€í•˜ëŠ” Counter ê°’ Display
+: NCO(Numerical Controlled Oscillator) ìž…ë ¥ ë°”ê¿”ì„œ 4ì´ˆ ê°„ê²©ìœ¼ë¡œ ì¦ê°€í•˜ëŠ” ì½”ë“œ í…ŒìŠ¤íŠ¸
 
 
  
- ### **Top Module ÀÇ DUT/TestBench Code ¹× Waveform °ËÁõ**
+ ### **Top Module ì˜ DUT/TestBench Code ë° Waveform ê²€ì¦**
  
 ![]
 
