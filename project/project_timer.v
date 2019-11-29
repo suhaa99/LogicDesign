@@ -268,8 +268,8 @@ module	controller(
 		i_max_hit_alarm_min,
 		i_max_hit_alarm_hour,
 		i_max_hit_timer_sec,
-	  i_max_hit_timer_min,
-  	 i_max_hit_timer_hour,
+	  	i_max_hit_timer_min,
+  	        i_max_hit_timer_hour,
 		i_sw0,
 		i_sw1,
 		i_sw2,
@@ -281,8 +281,8 @@ output		o_mode			;
 output		o_dp			;
 output		o_position		;
 output		o_alarm_en		;
-output  o_timer   ;
-output  o_timer_reset ;   //  
+output  	o_timer  	        ;
+output  	o_timer_reset 		;   //  
 
 output		o_sec_clk		;
 output		o_min_clk		;
@@ -320,15 +320,15 @@ input		rst_n			;
 parameter	MODE_CLOCK = 2'b00	;
 parameter	MODE_SETUP = 2'b01	;
 parameter	MODE_ALARM = 2'b10	;
-parameter 	MODE_TIMER = 2'b11 ; // MODE_TIMER(MODE3)
+parameter 	MODE_TIMER = 2'b11 	; // MODE_TIMER(MODE3)
 
 parameter	POS_SEC	= 2'b00		;
 parameter	POS_MIN	= 2'b01		;
 parameter	POS_HOUR= 2'b10		;//?? ?? ?? 
 
-parameter TIMER_START = 1'b0  ;   //sw1 : START/STOP
-parameter TIMER_STOP = 1'b1 ;
-//parameter TIMER_RESET
+parameter	TIMER_START = 1'b0  	;   //sw1 : START/STOP
+parameter 	TIMER_STOP = 1'b1 	;
+parameter 	TIMER_RESET = 1'b0	;
 
 wire		clk_100hz		;
 nco		u0_nco(
@@ -368,7 +368,7 @@ always @(posedge sw0 or negedge rst_n) begin
 		o_mode <= MODE_CLOCK;
 		o_dp   <= 6'b010101;	// time dot
 	end else begin
-		if(o_mode >= MODE_ALARM) begin
+		if(o_mode >= MODE_TIMER) begin
 			o_mode <= MODE_CLOCK;
 			o_dp   <= 6'b010101; 	// time dot
 		end else begin
@@ -392,21 +392,24 @@ always @(posedge sw1 or negedge rst_n) begin
 	end
 end
 //timer. sw1. start/stop
-reg [1:0] o_timer ;
+reg 	 o_timer ;
 always@(posedge sw1 or negedge rst_n) begin
 	if(rst_n == 1'b0) begin
-		o_timer <= TIMER_START;
+		o_timer <= TIMER_STOP;
 	end else begin
-		if(o_timer >= TIMER_STOP) begin
-		o_timer <= TIMER_START;
-		end else begin
 		o_timer <= o_timer + 1'b1;
-		end
 	end
 end
+
 //timer. sw2. reset
-
-
+/*reg	o_timer_reset;
+always@(posedge sw2 or negedge rst_n) begin
+	if(rst_n == 1'b0) begin
+		o_timer_reset <= 1'b0;
+	end else begin
+		o_timer_reset <= o_timer_reset + 1'b1;
+	end
+end*/
 
 reg		o_alarm_en		;
 always @(posedge sw3 or negedge rst_n) begin
@@ -491,28 +494,34 @@ always @(*) begin
 				end
 			endcase
 		end
-	 MODE_TIMER : begin        //MODE_TIMER
-	   case(o_timer)
-	     TIMER_START : begin
-	       o_timer_sec_clk = clk_1hz;
-				 o_timer_min_clk = i_max_hit_timer_sec;
-				 o_timer_hour_clk= i_max_hit_timer_min;
+	     	 MODE_TIMER : begin        //MODE_TIMER
+	               case(o_timer)
+	                  TIMER_START : begin
+			   o_sec_clk = clk_1hz;
+			   o_min_clk = i_max_hit_clock_sec;
+			   o_hour_clk= i_max_hit_clock_min;
+	        	   o_timer_sec_clk = clk_1hz;
+	      		   o_timer_min_clk = i_max_hit_timer_sec;
+	       		   o_timer_hour_clk= i_max_hit_timer_min;
 			 end
 			 TIMER_STOP : begin        //
+			   o_sec_clk = clk_1hz;
+			   o_min_clk = i_max_hit_clock_sec;
+			   o_hour_clk= i_max_hit_clock_min;
 			   o_timer_sec_clk = 1'b0;
 			   o_timer_min_clk = 1'b0;
 			   o_timer_hour_clk= 1'b0;
 			 end
 			endcase
 		end
-		 /*case(o_timer_reset)
-		   TIMER_RESET : begin     
-		     o_timer_sec_clk = 1'b0;
+		     case(o_timer_reset)
+		  	 TIMER_RESET : begin     
+		     	   o_timer_sec_clk = 1'b0;
 			   o_timer_min_clk = 1'b0;
 			   o_timer_hour_clk= 1'b0;
 			  end
 			endcase
-		end	*/ 
+		end	
 		default: begin
 			o_sec_clk = 1'b0;
 			o_min_clk = 1'b0;
@@ -574,9 +583,9 @@ output		o_max_hit_alarm_min	;
 output		o_max_hit_alarm_hour	;
 output		o_alarm			;
 
-input		o_max_hit_timer_sec	;
-input		o_max_hit_timer_min	;
-input		o_max_hit_timer_hour	;//
+output		o_max_hit_timer_sec	;
+output		o_max_hit_timer_min	;
+output		o_max_hit_timer_hour	;//
 
 input	[1:0]	i_mode		;
 input		i_position	;
@@ -602,14 +611,15 @@ input		rst_n		;
 parameter	MODE_CLOCK	= 2'b00	;
 parameter	MODE_SETUP	= 2'b01	;
 parameter	MODE_ALARM	= 2'b10	;
-parameter MODE_TIMER = 2'b11 ;
+parameter 	MODE_TIMER 	= 2'b11 ;
 
 parameter	POS_SEC		= 2'b00	;
 parameter	POS_MIN		= 2'b01	;
 parameter	POS_HOUR	= 2'b10	;
 
-parameter TIMER_START = 1'b0  ;   //sw1 : START/STOP
-parameter TIMER_STOP = 1'b1 ;
+parameter 	TIMER_START 	= 1'b0  ;   //sw1 : START/STOP
+parameter 	TIMER_STOP 	= 1'b1  ;
+parameter	TIMER_RESET	= 1'b0	;
 
 wire	[5:0]	clock_sec	;
 hms_cnt		u0_hms_cnt(
@@ -709,7 +719,7 @@ always @ (*) begin
 			o_hour	= alarm_hour	;
 		end
 		MODE_TIMER : begin
-		  o_sec	= timer_sec	;
+		  	o_sec	= timer_sec	;
 			o_min	= timer_min	;
 			o_hour	= timer_hour	;
 		end
@@ -950,7 +960,7 @@ minsec		u_minsec(	.o_sec			( sec_double_fig 	),
 				.o_max_hit_alarm_sec	( max_hit_alarm_sec	),
 				.o_max_hit_alarm_min	( max_hit_alarm_min	),
 				.o_max_hit_alarm_hour	( max_hit_alarm_hour	),
-			   .o_max_hit_timer_sec	( max_hit_timer_sec	),
+			   	.o_max_hit_timer_sec	( max_hit_timer_sec	),
 				.o_max_hit_timer_min	( max_hit_timer_min	),
 				.o_max_hit_timer_hour	( max_hit_timer_hour	),	
 				.o_alarm		( alarm		 	),
@@ -965,6 +975,9 @@ minsec		u_minsec(	.o_sec			( sec_double_fig 	),
 				.i_alarm_min_clk	( alarm_min_clk		),
 				.i_alarm_hour_clk	( alarm_hour_clk	),
 				.i_alarm_en		( alarm_en		),
+				.i_timer_sec_clk	( timer_sec_clk		),
+				.i_timer_min_clk	( timer_min_clk		),
+				.i_timer_hour_clk	( timer_hour_clk	),
 				.clk			( clk			),
 				.rst_n			( rst_n			));
 
