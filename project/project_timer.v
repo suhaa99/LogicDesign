@@ -107,6 +107,8 @@ module	led_disp(
 		o_seg_enb,
 		i_six_digit_seg,
 		i_six_dp,
+		i_blink_position,
+		i_stopwatch_reset,
 		clk,
 		rst_n);
 
@@ -116,6 +118,8 @@ output	[6:0]	o_seg			;
 
 input	[41:0]	i_six_digit_seg		;
 input	[5:0]	i_six_dp		;
+input	[1:0]	i_blink_position	;
+input		i_stopwatch_reset	;
 input		clk			;
 input		rst_n			;
 
@@ -182,7 +186,200 @@ always @(cnt_common_node) begin
 end
 
 endmodule
+//	--------------------------------------------------
+//	BLINK
+//	--------------------------------------------------
+module 	seg_blink(
+		o_seg_sec_left,
+		o_seg_sec_right,
+		o_seg_min_left,
+		o_seg_min_right,
+		o_seg_hour_left,
+		o_seg_hour_right,
+		i_seg_sec_left,
+		i_seg_sec_right,
+		i_seg_min_left,
+		i_seg_min_right,
+		i_seg_hour_left,
+		i_seg_hour_right,
+		i_position,
+		i_mode,
+		clk,
+		rst_n);
 
+
+input	[6:0]	i_seg_sec_left		;
+input	[6:0]	i_seg_sec_right		;
+input	[6:0]	i_seg_min_left		;
+input	[6:0]	i_seg_min_right		;
+input	[6:0]	i_seg_hour_left		;
+input	[6:0]	i_seg_hour_right	;
+input	[1:0]	i_position		;
+input	[1:0]	i_mode			;
+input		clk			;
+input		rst_n			;
+
+output	[6:0]	o_seg_sec_left		;
+output	[6:0]	o_seg_sec_right		;
+output	[6:0]	o_seg_min_left		;
+output	[6:0]	o_seg_min_right		;
+output	[6:0]	o_seg_hour_left		;
+output	[6:0]	o_seg_hour_right	;
+
+
+
+reg	[6:0]	o_seg_sec_left		;
+reg	[6:0]	o_seg_sec_right		;
+reg	[6:0]	o_seg_min_left		;
+reg	[6:0]	o_seg_min_right		;
+reg	[6:0]	o_seg_hour_left		;
+reg	[6:0]	o_seg_hour_right	;
+
+wire		clk_1hz			;
+nco		u1_nco(
+		.o_gen_clk	( clk_1hz	),
+		.i_nco_num	( 32'd50000000	),
+		.clk		( clk		),
+		.rst_n		( rst_n		));
+
+always @ (posedge clk )	begin
+	if(i_position == 2'b00 && (i_mode == 2'b01 || i_mode == 2'b10)) begin
+		if(clk_1hz == 1'b0) begin
+		o_seg_sec_right <= 7'b0000000;
+		o_seg_sec_left  <= 7'b0000000;
+		o_seg_min_right <= i_seg_min_right;
+		o_seg_min_left  <= i_seg_min_left ;
+		o_seg_hour_right <= i_seg_hour_right;
+		o_seg_hour_left  <= i_seg_hour_left ;
+		end else begin
+		o_seg_sec_right <= i_seg_sec_right;
+		o_seg_sec_left  <= i_seg_sec_left ;
+		o_seg_min_right <= i_seg_min_right;
+		o_seg_min_left  <= i_seg_min_left ;
+		o_seg_hour_right <= i_seg_hour_right;
+		o_seg_hour_left  <= i_seg_hour_left ;
+		end
+	end else if(i_position == 2'b01 && (i_mode == 2'b01 || i_mode == 2'b10)) begin
+		if(clk_1hz == 1'b0) begin
+		o_seg_sec_right <= i_seg_sec_right;
+		o_seg_sec_left  <= i_seg_sec_left ;
+		o_seg_min_right <= 7'b0000000;
+		o_seg_min_left  <= 7'b0000000;
+		o_seg_hour_right <= i_seg_hour_right;
+		o_seg_hour_left  <= i_seg_hour_left ;
+		end else begin
+		o_seg_sec_right <= i_seg_sec_right;
+		o_seg_sec_left  <= i_seg_sec_left ;
+		o_seg_min_right <= i_seg_min_right;
+		o_seg_min_left  <= i_seg_min_left ;
+		o_seg_hour_right <= i_seg_hour_right;
+		o_seg_hour_left  <= i_seg_hour_left ;
+		end
+	end else if(i_position == 2'b10 && (i_mode == 2'b01 || i_mode == 2'b10)) begin
+		if(clk_1hz == 1'b0) begin
+		o_seg_sec_right <= i_seg_sec_right;
+		o_seg_sec_left  <= i_seg_sec_left ;
+		o_seg_min_right <= i_seg_min_right;
+		o_seg_min_left  <= i_seg_min_left ;
+		o_seg_hour_right <= 7'b0000000;
+		o_seg_hour_left  <= 7'b0000000;
+		end else begin
+		o_seg_sec_right <= i_seg_sec_right;
+		o_seg_sec_left  <= i_seg_sec_left ;
+		o_seg_min_right <= i_seg_min_right;
+		o_seg_min_left  <= i_seg_min_left ;
+		o_seg_hour_right<= i_seg_hour_right;
+		o_seg_hour_left  <= i_seg_hour_left ;
+		end
+	end else begin
+		o_seg_sec_right <= i_seg_sec_right;
+		o_seg_sec_left  <= i_seg_sec_left ;
+		o_seg_min_right <= i_seg_min_right;
+		o_seg_min_left  <= i_seg_min_left ;
+		o_seg_hour_right <= i_seg_hour_right;
+		o_seg_hour_left  <= i_seg_hour_left ;
+		end
+
+end
+endmodule
+
+//	--------------------------------------------------
+//	STOPWATCH_RESET
+//	--------------------------------------------------
+module 	stopwatch_reset(
+		o_seg_sec_left,
+		o_seg_sec_right,
+		o_seg_min_left,
+		o_seg_min_right,
+		o_seg_hour_left,
+		o_seg_hour_right,
+		i_seg_sec_left,
+		i_seg_sec_right,
+		i_seg_min_left,
+		i_seg_min_right,
+		i_seg_hour_left,
+		i_seg_hour_right,
+		i_stopwatch_reset,
+		i_mode,
+		clk,
+		rst_n);
+
+
+input	[6:0]	i_seg_sec_left		;
+input	[6:0]	i_seg_sec_right		;
+input	[6:0]	i_seg_min_left		;
+input	[6:0]	i_seg_min_right		;
+input	[6:0]	i_seg_hour_left		;
+input	[6:0]	i_seg_hour_right	;
+input		i_stopwatch_reset	;
+input	[1:0]	i_mode			;
+input		clk			;
+input		rst_n			;
+
+output	[6:0]	o_seg_sec_left		;
+output	[6:0]	o_seg_sec_right		;
+output	[6:0]	o_seg_min_left		;
+output	[6:0]	o_seg_min_right		;
+output	[6:0]	o_seg_hour_left		;
+output	[6:0]	o_seg_hour_right	;
+
+
+
+reg	[6:0]	o_seg_sec_left		;
+reg	[6:0]	o_seg_sec_right		;
+reg	[6:0]	o_seg_min_left		;
+reg	[6:0]	o_seg_min_right		;
+reg	[6:0]	o_seg_hour_left		;
+reg	[6:0]	o_seg_hour_right	;
+
+always @ (posedge clk or negedge rst_n)	begin
+	if(rst_n == 1'b0) begin
+		o_seg_sec_right <= 7'd0;
+		o_seg_sec_left  <= 7'd0;
+		o_seg_min_right <= 7'd0;
+		o_seg_min_left  <= 7'd0;
+		o_seg_hour_right <= 7'd0;
+		o_seg_hour_left  <= 7'd0;
+	end else begin 
+		if(i_stopwatch_reset == 1'b1 && i_mode == 2'b11 ) begin
+		o_seg_sec_right <= 7'b1111110;
+		o_seg_sec_left  <= 7'b1111110;
+		o_seg_min_right <= 7'b1111110;
+		o_seg_min_left  <= 7'b1111110;
+		o_seg_hour_right <= 7'b1111110;
+		o_seg_hour_left  <= 7'b1111110;
+		end else begin
+		o_seg_sec_right <= i_seg_sec_right;
+		o_seg_sec_left  <= i_seg_sec_left ;
+		o_seg_min_right <= i_seg_min_right;
+		o_seg_min_left  <= i_seg_min_left ;
+		o_seg_hour_right <= i_seg_hour_right;
+		o_seg_hour_left  <= i_seg_hour_left ;
+	end
+
+end
+end
+endmodule
 //	--------------------------------------------------
 //	HMS(Hour:Min:Sec) Counter
 //	--------------------------------------------------
@@ -326,9 +523,9 @@ parameter	POS_SEC	= 2'b00		;
 parameter	POS_MIN	= 2'b01		;
 parameter	POS_HOUR= 2'b10		;//?? ?? ?? 
 
-parameter	TIMER_START = 1'b0  	;   //sw1 : START/STOP
-parameter 	TIMER_STOP = 1'b1 	;
-parameter 	TIMER_RESET = 1'b0	;
+parameter	TIMER_START = 1'b1  	;   //sw1 : START/STOP
+parameter 	TIMER_STOP = 1'b0 	;	//modified
+parameter 	TIMER_RESET = 1'b1	;
 
 wire		clk_100hz		;
 nco		u0_nco(
@@ -388,6 +585,7 @@ always @(posedge sw1 or negedge rst_n) begin
 		o_position <= POS_SEC;
 		end else begin
 		o_position <= o_position + 1'b1;
+		//o_dp	   <= o_position + 1'b1; //o_position dp 
 		end
 	end
 end
@@ -402,14 +600,14 @@ always@(posedge sw1 or negedge rst_n) begin
 end
 
 //timer. sw2. reset
-/*reg	o_timer_reset;
+reg	o_timer_reset;
 always@(posedge sw2 or negedge rst_n) begin
 	if(rst_n == 1'b0) begin
 		o_timer_reset <= 1'b0;
 	end else begin
 		o_timer_reset <= o_timer_reset + 1'b1;
 	end
-end*/
+end
 
 reg		o_alarm_en		;
 always @(posedge sw3 or negedge rst_n) begin
@@ -452,6 +650,7 @@ always @(*) begin
 					o_sec_clk = ~sw2;
 					o_min_clk = 1'b0;
 					o_hour_clk= 1'b0;
+
 				end
 				POS_MIN	 : begin
 					o_sec_clk = 1'b0;
@@ -513,8 +712,7 @@ always @(*) begin
 			   o_timer_hour_clk= 1'b0;
 			 end
 			endcase
-		end
-		     case(o_timer_reset)
+		   	case(o_timer_reset)
 		  	 TIMER_RESET : begin     
 		     	   o_timer_sec_clk = 1'b0;
 			   o_timer_min_clk = 1'b0;
@@ -617,11 +815,12 @@ parameter	POS_SEC		= 2'b00	;
 parameter	POS_MIN		= 2'b01	;
 parameter	POS_HOUR	= 2'b10	;
 
-parameter 	TIMER_START 	= 1'b0  ;   //sw1 : START/STOP
-parameter 	TIMER_STOP 	= 1'b1  ;
-parameter	TIMER_RESET	= 1'b0	;
+parameter 	TIMER_START 	= 1'b1  ;   //sw1 : START/STOP
+parameter 	TIMER_STOP 	= 1'b0  ;
+parameter	TIMER_RESET	= 1'b1	;
 
 wire	[5:0]	clock_sec	;
+
 hms_cnt		u0_hms_cnt(
 		.o_hms_cnt	( clock_sec		),
 		.o_max_hit	( o_max_hit_clock_sec	),
@@ -788,62 +987,164 @@ parameter B1 = 6327  ;//
 wire		clk_bit		;
 nco	u_nco_bit(	
 		.o_gen_clk	( clk_bit	),
-		.i_nco_num	( 25000000	),
+		.i_nco_num	( 12500000	),
 		.clk		( clk		),
 		.rst_n		( rst_n		));
 
-reg	[4:0]	cnt		;
+reg	[6:0]	cnt		;
 always @ (posedge clk_bit or negedge rst_n) begin
 	if(rst_n == 1'b0) begin
-		cnt <= 6'd0;
-	end else begin
-		if(cnt >= 6'd33) begin
-			cnt <= 6'd0;
+		cnt <= 7'd0;
+	end else if(i_buzz_en == 1'b0) begin
+	    cnt <= 7'd0 ;
+	    end else begin
+		if(cnt >= 7'd127) begin
+			cnt <= 7'd0;
 		end else begin
 			cnt <= cnt + 1'd1;
 		end
 	end
 end
 
-reg	[63:0]	nco_num		;
+reg	[127:0]	nco_num		;
 always @ (*) begin
 	case(cnt)
-		6'd00: nco_num = G	; 
-		6'd01: nco_num = B	;
-		6'd02: nco_num = D0	; //
-		6'd03: nco_num = F1	;
-		6'd04: nco_num = G0 ;
-		6'd05: nco_num = F1	;
-		6'd06: nco_num = E0	; //start
-		6'd07: nco_num = D0	;
+		7'd00: nco_num = G	; 
+		7'd01: nco_num = G	; 
+    7'd02: nco_num = B	;
+		7'd03: nco_num = B	;
+		7'd04: nco_num = D0	;
+		7'd05: nco_num = D0	; 
+		7'd06: nco_num = F1	;
+		7'd07: nco_num = G0 ;
+		7'd08: nco_num = G0 ;
+		7'd09: nco_num = F1	;
+		7'd10: nco_num = F1	;
+		7'd11: nco_num = E0	; 
+		7'd12: nco_num = E0	;
+		7'd13: nco_num = D0	;
+		7'd14: nco_num = D0	;
 		
-		6'd08: nco_num = A0	;
-		6'd09: nco_num = G0	;
-		6'd10: nco_num = G0	;
-		6'd11: nco_num = F1	;
-		6'd12: nco_num = G0	;
-		6'd13: nco_num = F1	; 
-		6'd14: nco_num = E0	;
-		6'd15: nco_num = D0	;
+		7'd15: nco_num = A0	;
+		7'd16: nco_num = A0	;
+		7'd17: nco_num = G0	;
+		7'd18: nco_num = G0	;
+		7'd19: nco_num = G0	;
+		7'd20: nco_num = G0	;
+		7'd21: nco_num = F1	;
+		7'd22: nco_num = G0	;
+		7'd23: nco_num = G0	;
+		7'd24: nco_num = F1	; //
+		7'd25: nco_num = E0	;
+		7'd26: nco_num = E0	;
+		7'd27: nco_num = D0	;
+		7'd28: nco_num = D0	;
 		
-		6'd16: nco_num = C0	; //
-		6'd17: nco_num = E0	;
-		6'd18: nco_num = G0	; //
-		6'd19: nco_num = A0	;
-		6'd20: nco_num = B0	;
-		6'd21: nco_num = A0	; 
-		6'd22: nco_num = G0	; //
-		6'd23: nco_num = E0	;
+		7'd29: nco_num = C0	;
+		7'd30: nco_num = C0	; 
+		7'd31: nco_num = E0	;
+		7'd32: nco_num = E0	;
+		7'd33: nco_num = G0	;
+		7'd34: nco_num = G0	; 
+		7'd35: nco_num = A0	;
+		7'd36: nco_num = B0	;
+		7'd37: nco_num = B0	;
+		7'd38: nco_num = A0	; 
+		7'd39: nco_num = G0	;
+		7'd40: nco_num = G0	; 
+		7'd41: nco_num = E0	;
+		7'd42: nco_num = E0	;
 		
-		6'd24: nco_num = B0	;
-		6'd25: nco_num = D1	;
-		6'd26: nco_num = B0	;
-		6'd27: nco_num = A0	;
-		6'd28: nco_num = G0	; //
-		6'd29: nco_num = A0	;
-		6'd30: nco_num = G0	;
-		6'd31: nco_num = E2	;
-		6'd32: nco_num = D0	; //
+		7'd43: nco_num = B0	;
+		7'd44: nco_num = B0	;
+		7'd45: nco_num = D1	;
+		7'd46: nco_num = D1	;
+		7'd47: nco_num = B0	;
+		7'd48: nco_num = A0	;
+		7'd49: nco_num = G0	; 
+		7'd50: nco_num = A0	;
+		7'd51: nco_num = A0	;
+		7'd52: nco_num = G0	;
+		7'd53: nco_num = E2	;
+		7'd54: nco_num = E2	;
+		7'd55: nco_num = D0	; 
+		7'd56: nco_num = D0	; 
+		
+		7'd57: nco_num = G0	;
+		7'd58: nco_num = G0	;
+		7'd59: nco_num = A0	;
+		7'd60: nco_num = A0	;
+		7'd61: nco_num = F1	;
+		7'd62: nco_num = F1	;
+		7'd63: nco_num = G0	;
+		7'd64: nco_num = G0	;
+		7'd65: nco_num = E0	;//
+		7'd66: nco_num = E0	;
+		7'd67: nco_num = F1	;
+		7'd68: nco_num = F1	;
+		7'd69: nco_num = E2	;
+		7'd70: nco_num = E2	;
+		7'd71: nco_num = E2	;
+		7'd72: nco_num = E2	;
+		
+		7'd73: nco_num = B0	;
+		7'd74: nco_num = B0	;
+		7'd75: nco_num = A0	;
+		7'd76: nco_num = A0	;
+		7'd77: nco_num = A0	;
+		7'd78: nco_num = G0	;
+		7'd79: nco_num = G0	;
+		7'd80: nco_num = F1	;
+		7'd81: nco_num = F1	;
+		7'd82: nco_num = G0	;
+		7'd83: nco_num = G0	;
+		7'd84: nco_num = E2	;
+		7'd85: nco_num = E2	;
+		7'd86: nco_num = E2	;
+		7'd87: nco_num = E2	;
+		
+		7'd88: nco_num = D0	;
+		7'd89: nco_num = D0	;
+		7'd90: nco_num = E0	;
+		7'd91: nco_num = E0	;
+		7'd92: nco_num = G0	;
+		7'd93: nco_num = D1	;
+		7'd94: nco_num = D1	;
+		7'd95: nco_num = C1	;
+		7'd96: nco_num = C1	;
+		7'd97: nco_num = C1	;
+		7'd98: nco_num = C1	;
+		7'd99: nco_num = C1	;
+		7'd100: nco_num = C1	;
+		7'd101: nco_num = C1	;
+		7'd102: nco_num = C1	;
+		7'd103: nco_num = C1	;
+		
+		7'd104: nco_num = B0	;
+		7'd105: nco_num = B0	;
+		7'd106: nco_num = A0	;
+		7'd107: nco_num = A0	;
+		7'd108: nco_num = G0	;
+		7'd109: nco_num = G0	;
+		7'd110: nco_num = E0	;
+		7'd111: nco_num = E0	;
+		7'd112: nco_num = E2	;
+		7'd113: nco_num = A0	;
+		7'd114: nco_num = A0	;
+		7'd115: nco_num = A0	;
+		7'd116: nco_num = A0	;
+		7'd117: nco_num = A0	;
+		7'd118: nco_num = B0	;
+		7'd119: nco_num = B0	;
+		7'd120: nco_num = G0	;
+		7'd121: nco_num = G0	;
+		7'd122: nco_num = G0	;
+		7'd123: nco_num = G0	;
+		7'd124: nco_num = G0	;
+		7'd125: nco_num = G0	;
+		7'd126: nco_num = G0	;
+		7'd127: nco_num = G0	;	
+		
 	endcase
 end
 
@@ -886,8 +1187,9 @@ input		rst_n		;
 
 wire	[1:0]	mode		;
 wire	[5:0]	dp		;
-wire		position	;
-wire     	imer  ;
+wire	[1:0]	position	;
+wire     	timer  		;
+wire		timer_reset	;
 
 wire		sec_clk		;
 wire		min_clk		;
@@ -918,8 +1220,8 @@ controller	u_controller(	.o_mode			( mode			),
 				.o_dp			( dp			),
 				.o_position		( position		),
 				.o_alarm_en		( alarm_en		),
-				.o_timer     (  timer   ),
-				.o_timer_reset (          ),
+				.o_timer     		( timer  	        ),
+				.o_timer_reset 		( timer_reset         	),
 				.o_sec_clk		( sec_clk		),
 				.o_min_clk		( min_clk		),
 				.o_hour_clk		( hour_clk		),
@@ -966,8 +1268,8 @@ minsec		u_minsec(	.o_sec			( sec_double_fig 	),
 				.o_alarm		( alarm		 	),
 				.i_mode			( mode			),
 				.i_position		( position		),
-				.i_timer    ( timer     ),
-				.i_timer_reset  (         ),
+				.i_timer    		( timer   		),
+				.i_timer_reset  	( timer_reset      	),
 				.i_sec_clk		( sec_clk		),
 				.i_min_clk		( min_clk	 	),
 				.i_hour_clk		( hour_clk	 	),
@@ -1002,6 +1304,8 @@ double_fig_sep	u_double_fig_sep2(	.o_left		( left_sec_num		),
 					.o_right	( right_sec_num		),
 					.i_double_fig	( sec_double_fig	));
 
+
+
 wire	[6:0]	seg_hour_left	;
 wire	[6:0]	seg_hour_right	;
 
@@ -1029,14 +1333,60 @@ fnd_dec		u_fnd_dec_sec0	(	.o_seg		( seg_sec_left		),
 fnd_dec		u_fnd_dec_sec1	(	.o_seg		( seg_sec_right		),
 					.i_num		( right_sec_num		));
 
+
+wire	[6:0]	o_seg_hour_left	;
+wire	[6:0]	o_seg_hour_right;
+
+wire	[6:0]	o_seg_min_left	;
+wire	[6:0]	o_seg_min_right	;
+
+wire	[6:0]	o_seg_sec_left	;
+wire	[6:0]	o_seg_sec_right	;
+
+seg_blink	u_seg_blink	(	.o_seg_sec_left		(o_seg_sec_left),
+					.o_seg_sec_right	(o_seg_sec_right),
+					.o_seg_min_left		(o_seg_min_left),
+					.o_seg_min_right	(o_seg_min_right),
+					.o_seg_hour_left	(o_seg_hour_left),
+					.o_seg_hour_right	(o_seg_hour_right),
+					.i_seg_sec_left		(seg_sec_left),
+					.i_seg_sec_right	(seg_sec_right),
+					.i_seg_min_left		(seg_min_left),
+					.i_seg_min_right	(seg_min_right),
+					.i_seg_hour_left	(seg_hour_left),
+					.i_seg_hour_right	(seg_hour_right),
+					.i_position		( position	),
+					.i_mode			( mode		),
+					.clk			(clk		),
+					.rst_n			( rst_n		));
+
+stopwatch_reset	  u_stopwatch_reset(	.o_seg_sec_left		(o_seg_sec_left),
+					.o_seg_sec_right	(o_seg_sec_right),
+					.o_seg_min_left		(o_seg_min_left),
+					.o_seg_min_right	(o_seg_min_right),
+					.o_seg_hour_left	(o_seg_hour_left),
+					.o_seg_hour_right	(o_seg_hour_right),
+					.i_seg_sec_left		(seg_sec_left),
+					.i_seg_sec_right	(seg_sec_right),
+					.i_seg_min_left		(seg_min_left),
+					.i_seg_min_right	(seg_min_right),
+					.i_seg_hour_left	(seg_hour_left),
+					.i_seg_hour_right	(seg_hour_right),
+					.i_stopwatch_reset	( timer_reset	),
+					.i_mode			( mode		),
+					.clk			(clk		),
+					.rst_n			( rst_n		));
+
 wire	[41:0]	six_digit_seg	;
-assign	six_digit_seg = {seg_hour_left, seg_hour_right, seg_min_left, seg_min_right, seg_sec_left, seg_sec_right};
+assign	six_digit_seg = {o_seg_hour_left, o_seg_hour_right, o_seg_min_left, o_seg_min_right, o_seg_sec_left, o_seg_sec_right};
 
 led_disp	u_led_disp(	.o_seg		( o_seg		),
 				.o_seg_dp	( o_seg_dp	),
 				.o_seg_enb	( o_seg_enb	),
 				.i_six_digit_seg( six_digit_seg	),
 				.i_six_dp	( dp		),
+				.i_blink_position( position	),
+				.i_stopwatch_reset (timer_reset),
 				.clk		( clk		),
 				.rst_n		( rst_n		));
 // led_disp_timer_reset
@@ -1047,6 +1397,11 @@ buzz		u_buzz	(	.o_buzz		( o_alarm	),
 
 
 endmodule
+
+
+
+
+
 
 
 
