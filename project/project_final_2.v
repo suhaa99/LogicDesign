@@ -311,7 +311,7 @@ nco		u1_nco(
 		.rst_n		( rst_n		));
 
 always @ (posedge clk )	begin
-	if(i_mode == 3'b001 || i_mode == 3'b010) begin
+	if(i_mode == 3'b001 || i_mode == 3'b010 || i_mode == 3'b101) begin
 		if(i_position == 2'b00) begin
 			if(clk_1hz == 1'b0) begin
 			o_seg_sec_right <= 7'b0000000;
@@ -1065,7 +1065,7 @@ wire	[5:0]	date_year	;
 hms_cnt		u_hms_cnt_date_year(
 		.o_hms_cnt	( date_year		),
 		.o_max_hit	( o_max_hit_date_year	),
-		.i_max_cnt	( 6'd99			),
+		.i_max_cnt	( 6'd98			),
 		.i_sw1		( i_sw1			),
 		.i_sw2		( i_sw2			),
 		.i_mode		( i_mode		),
